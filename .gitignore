@@ -1,0 +1,21 @@
+
+# Arduino
+*.elf
+*.hex
+*.bin
+*.lock
+build/
+.pio/
+__pycache__/
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# VS Code
+.vscode/
+*.code-workspace
+
+# User specific
+*.DS_Store
