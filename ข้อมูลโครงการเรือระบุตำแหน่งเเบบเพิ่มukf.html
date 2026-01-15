@@ -1,0 +1,1655 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>โครงการระบบนำทางเรือ UWB - สรุปโครงการอย่างละเอียด</title>
+    <style>
+        :root {
+            --primary-color: #2563eb;
+            --secondary-color: #1e40af;
+            --accent-color: #3b82f6;
+            --bg-color: #f8fafc;
+            --card-bg: #ffffff;
+            --text-color: #1e293b;
+            --border-color: #e2e8f0;
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+            --danger-color: #ef4444;
+            --info-color: #06b6d4;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Sarabun', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: var(--text-color);
+            line-height: 1.6;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: var(--bg-color);
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        nav {
+            background: white;
+            padding: 15px 40px;
+            border-bottom: 2px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        nav a {
+            color: var(--text-color);
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+
+        nav a:hover {
+            background: var(--primary-color);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        section {
+            margin-bottom: 50px;
+        }
+
+        h2 {
+            color: var(--primary-color);
+            font-size: 2em;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid var(--accent-color);
+        }
+
+        h3 {
+            color: var(--secondary-color);
+            font-size: 1.5em;
+            margin: 25px 0 15px 0;
+        }
+
+        h4 {
+            color: var(--text-color);
+            font-size: 1.2em;
+            margin: 20px 0 10px 0;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 25px;
+            margin: 20px 0;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border-left: 4px solid var(--primary-color);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+        }
+
+        .goal-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            font-size: 1.3em;
+            margin: 30px 0;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+        }
+
+        .components-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .component-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border-top: 4px solid var(--primary-color);
+        }
+
+        .component-card h4 {
+            color: var(--primary-color);
+            margin-top: 0;
+        }
+
+        .flowchart {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            overflow-x: auto;
+            margin: 20px 0;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .flow-diagram {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            align-items: center;
+            min-width: 800px;
+        }
+
+        .flow-row {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .flow-box {
+            background: var(--primary-color);
+            color: white;
+            padding: 20px 30px;
+            border-radius: 10px;
+            text-align: center;
+            min-width: 200px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+
+        .flow-box.anchor {
+            background: var(--success-color);
+        }
+
+        .flow-box.tag {
+            background: var(--warning-color);
+        }
+
+        .flow-box.node {
+            background: var(--info-color);
+        }
+
+        .flow-box.sheet {
+            background: var(--danger-color);
+        }
+
+        .flow-arrow {
+            font-size: 2em;
+            color: var(--text-color);
+        }
+
+        .tech-term {
+            color: var(--primary-color);
+            font-weight: 600;
+            cursor: help;
+            border-bottom: 2px dotted var(--primary-color);
+        }
+
+        .definition {
+            display: inline-block;
+            background: #f1f5f9;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.9em;
+            color: #64748b;
+            margin-left: 5px;
+        }
+
+        .spec-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .spec-table th {
+            background: var(--primary-color);
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        .spec-table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .spec-table tr:hover {
+            background: #f8fafc;
+        }
+
+        .code-block {
+            background: #1e293b;
+            color: #e2e8f0;
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            line-height: 1.5;
+            margin: 15px 0;
+        }
+
+        .highlight {
+            background: linear-gradient(120deg, #fef3c7 0%, #fde68a 100%);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: 600;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: 600;
+            margin: 2px;
+        }
+
+        .badge-success {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        .badge-warning {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .badge-info {
+            background: #cffafe;
+            color: #164e63;
+        }
+
+        .badge-danger {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        ul, ol {
+            margin: 15px 0 15px 30px;
+        }
+
+        li {
+            margin: 8px 0;
+        }
+
+        .timeline {
+            position: relative;
+            padding-left: 30px;
+            border-left: 3px solid var(--primary-color);
+            margin: 20px 0;
+        }
+
+        .timeline-item {
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -36px;
+            top: 5px;
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            background: var(--primary-color);
+            border: 3px solid var(--bg-color);
+        }
+
+        .alert {
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border-left: 4px solid;
+        }
+
+        .alert-info {
+            background: #e0f2fe;
+            border-color: #0284c7;
+            color: #075985;
+        }
+
+        .alert-warning {
+            background: #fef3c7;
+            border-color: #f59e0b;
+            color: #92400e;
+        }
+
+        .alert-success {
+            background: #d1fae5;
+            border-color: #10b981;
+            color: #065f46;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+
+            header {
+                padding: 20px;
+            }
+
+            header h1 {
+                font-size: 1.8em;
+            }
+
+            .content {
+                padding: 20px;
+            }
+
+            nav ul {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .components-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .flow-diagram {
+                min-width: auto;
+            }
+
+            .flow-row {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🚢 ระบบนำทางเรืออัตโนมัติด้วยเทคโนโลยี UWB</h1>
+            <p>เอกสารสรุปโครงการฉบับสมบูรณ์ - มีทุกอย่างที่คุณต้องรู้</p>
+        </header>
+
+        <nav>
+            <ul>
+                <li><a href="#overview">ภาพรวม</a></li>
+                <li><a href="#goal">เป้าหมาย</a></li>
+                <li><a href="#components">ส่วนประกอบ</a></li>
+                <li><a href="#workflow">ขั้นตอนการทำงาน</a></li>
+                <li><a href="#flowchart">โฟลว์ชาร์ต</a></li>
+                <li><a href="#hardware">ฮาร์ดแวร์</a></li>
+                <li><a href="#software">ซอฟต์แวร์</a></li>
+                <li><a href="#algorithms">อัลกอริทึม</a></li>
+                <li><a href="#implementation">การนำไปใช้</a></li>
+                <li><a href="#troubleshooting">แก้ปัญหา</a></li>
+            </ul>
+        </nav>
+
+        <div class="content">
+            <!-- SECTION 1: OVERVIEW -->
+            <section id="overview">
+                <h2>📋 ภาพรวมโครงการ</h2>
+                
+                <div class="card">
+                    <h3>โครงการคืออะไร?</h3>
+                    <p>โครงการนี้เป็นระบบนำทางเรืออัตโนมัติที่ใช้เทคนิค <span class="tech-term">UWB (Ultra-Wideband)</span> <span class="definition">คลื่นความถี่วิทยุช่วงกว้างสำหรับวัดระยะทางแม่นยำ</span> ในการหาตำแหน่งและนำทางเรือให้เดินทางจากจุดเริ่มต้นไปยังจุดหมายปลายทางแล้ววิ่งกลับมายังจุดเริ่มต้นได้อย่างอัตโนมัติ พร้อมบันทึกข้อมูลเพื่อสร้างแผนที่เส้นทาง</p>
+                </div>
+
+                <div class="goal-box">
+                    <h3 style="color: white; margin-top: 0;">🎯 เป้าหมายหลักของโครงการ</h3>
+                    <p style="margin: 15px 0;">ให้เรือสามารถวิ่งจากจุดเริ่มต้นไปถึงที่หมายได้อย่างแม่นยำ แล้ววิ่งกลับมาที่จุดเริ่มต้นได้อัตโนมัติ พร้อมเก็บข้อมูลตำแหน่งเพื่อสร้างแผนที่เส้นทาง</p>
+                </div>
+
+                <div class="card">
+                    <h3>เทคโนโลยีหลักที่ใช้</h3>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px; margin-top: 15px;">
+                        <div style="padding: 15px; background: #f1f5f9; border-radius: 8px;">
+                            <h4 style="margin-top: 0; color: var(--primary-color);">🌐 UWB Positioning</h4>
+                            <p>ระบบหาตำแหน่งแม่นยำสูงด้วยคลื่น Ultra-Wideband</p>
+                        </div>
+                        <div style="padding: 15px; background: #f1f5f9; border-radius: 8px;">
+                            <h4 style="margin-top: 0; color: var(--success-color);">🎯 UKF Filtering</h4>
+                            <p>การกรองสัญญาณด้วย Unscented Kalman Filter</p>
+                        </div>
+                        <div style="padding: 15px; background: #f1f5f9; border-radius: 8px;">
+                            <h4 style="margin-top: 0; color: var(--info-color);">📡 ESP-NOW</h4>
+                            <p>การสื่อสารไร้สายแบบ Peer-to-Peer ความเร็วสูง</p>
+                        </div>
+                        <div style="padding: 15px; background: #f1f5f9; border-radius: 8px;">
+                            <h4 style="margin-top: 0; color: var(--warning-color);">☁️ Cloud Storage</h4>
+                            <p>บันทึกข้อมูลบน Google Sheets แบบเรียลไทม์</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 2: GOAL -->
+            <section id="goal">
+                <h2>🎯 เป้าหมายและความสำเร็จของโครงการ</h2>
+                
+                <div class="card">
+                    <h3>เป้าหมายหลัก</h3>
+                    <ol>
+                        <li><strong>การนำทางอัตโนมัติ:</strong> เรือสามารถเดินทางจากจุด A ไปยังจุด B และกลับมาจุด A ได้เองโดยอัตโนมัติ</li>
+                        <li><strong>ความแม่นยำสูง:</strong> ใช้ระบบ UWB ร่วมกับ UKF Filter เพื่อให้ได้ตำแหน่งที่แม่นยำ (±5-10 ซม.)</li>
+                        <li><strong>การบันทึกข้อมูล:</strong> เก็บข้อมูลตำแหน่งทุกๆ 200ms ไปยัง Google Sheets สำหรับวิเคราะห์และสร้างแผนที่</li>
+                        <li><strong>ระบบ Real-time:</strong> ประมวลผลและตัดสินใจได้ทันทีโดยไม่มีความล่าช้า</li>
+                    </ol>
+                </div>
+
+                <div class="card">
+                    <h3>ความท้าทายที่ต้องเผชิญ</h3>
+                    <ul>
+                        <li>🎯 <strong>ความแม่นยำของ UWB:</strong> ค่า bias (ค่าคลาดเคลื่อน) ที่เปลี่ยนแปลงตามระยะทาง</li>
+                        <li>📡 <strong>สัญญาณรบกวน:</strong> Noise จากสิ่งแวดล้อมและคลื่นสะท้อน (Multipath)</li>
+                        <li>⚡ <strong>Real-time Processing:</strong> ต้องประมวลผลเร็วพอสำหรับการควบคุมเรือ</li>
+                        <li>🔄 <strong>Data Synchronization:</strong> การส่งข้อมูลระหว่างอุปกรณ์ต้องตรงเวลา</li>
+                        <li>☁️ <strong>Internet Connection:</strong> การอัปโหลดข้อมูลต้องไม่ขัดขวางการทำงานหลัก</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>แนวทางการแก้ปัญหา</h3>
+                    <table class="spec-table">
+                        <tr>
+                            <th>ปัญหา</th>
+                            <th>วิธีแก้</th>
+                            <th>ผลลัพธ์</th>
+                        </tr>
+                        <tr>
+                            <td>Bias ที่เปลี่ยนตามระยะ</td>
+                            <td>Piecewise Bias Correction (แบ่งช่วงระยะ)</td>
+                            <td>ลด Error ลง 60-80%</td>
+                        </tr>
+                        <tr>
+                            <td>Noise & Outliers</td>
+                            <td>UKF + MAD Outlier Rejection</td>
+                            <td>Smooth & Stable</td>
+                        </tr>
+                        <tr>
+                            <td>Real-time Performance</td>
+                            <td>Adaptive Q/R, Fading Memory</td>
+                            <td>ประมวลผลภายใน 200-500 µs</td>
+                        </tr>
+                        <tr>
+                            <td>Data Loss</td>
+                            <td>Queue Buffer + Retry Logic</td>
+                            <td>ไม่มีข้อมูลสูญหาย</td>
+                        </tr>
+                    </table>
+                </div>
+            </section>
+
+            <!-- SECTION 3: COMPONENTS -->
+            <section id="components">
+                <h2>🔧 ส่วนประกอบของระบบ</h2>
+                
+                <div class="components-grid">
+                    <div class="component-card">
+                        <h4>📍 Anchor (จุดอ้างอิง) × 3 ตัว</h4>
+                        <p><span class="badge badge-success">A1</span> <span class="badge badge-success">A2</span> <span class="badge badge-success">A3</span></p>
+                        <p><strong>หน้าที่:</strong> เป็นจุดอ้างอิงที่ติดตั้งในตำแหน่งคงที่ 3 จุด ส่งสัญญาณ UWB แบบ TX-Only</p>
+                        <p><strong>Hardware:</strong> ESP32-S3 + DW3000 (STM32) + OLED Display</p>
+                        <p><strong>Mode:</strong> ROLE = 1 (ANCHOR)</p>
+                        <div class="code-block" style="font-size: 0.8em;">
+Config: ATSETCFG=[id],1,1,1
+ID: 0,1,2 (A1,A2,A3)
+                        </div>
+                    </div>
+
+                    <div class="component-card">
+                        <h4>🏷️ TAG Sender (ตัวส่งบนเรือ) × 1 ตัว</h4>
+                        <p><span class="badge badge-warning">TAG</span></p>
+                        <p><strong>หน้าที่:</strong> วัดระยะทางจาก 3 Anchors → กรองด้วย UKF → ส่งข้อมูลผ่าน ESP-NOW ไปยัง Node</p>
+                        <p><strong>Hardware:</strong> ESP32-S3 + DW3000 (STM32) + OLED Display</p>
+                        <p><strong>Mode:</strong> ROLE = 0 (TAG)</p>
+                        <p><strong>Features:</strong></p>
+                        <ul style="font-size: 0.9em; margin-left: 20px;">
+                            <li>✅ UKF Real-time Filtering</li>
+                            <li>✅ Piecewise Bias Correction</li>
+                            <li>✅ Outlier Rejection (MAD)</li>
+                            <li>✅ Adaptive Q/R Matrices</li>
+                        </ul>
+                    </div>
+
+                    <div class="component-card">
+                        <h4>📶 NODE Receiver (ตัวรับและอัปโหลด) × 1 ตัว</h4>
+                        <p><span class="badge badge-info">NODE</span></p>
+                        <p><strong>หน้าที่:</strong> รับข้อมูลจาก TAG ผ่าน ESP-NOW → เก็บใน Queue → อัปโหลดไปยัง Google Sheets</p>
+                        <p><strong>Hardware:</strong> ESP32-S3</p>
+                        <p><strong>Features:</strong></p>
+                        <ul style="font-size: 0.9em; margin-left: 20px;">
+                            <li>✅ ESP-NOW Receiver</li>
+                            <li>✅ WiFi HTTPS Client</li>
+                            <li>✅ Queue Buffer (64 items)</li>
+                            <li>✅ Optional Double UKF</li>
+                        </ul>
+                    </div>
+
+                    <div class="component-card">
+                        <h4>☁️ Google Sheets (ฐานข้อมูล)</h4>
+                        <p><span class="badge badge-danger">Cloud Storage</span></p>
+                        <p><strong>หน้าที่:</strong> เก็บข้อมูลตำแหน่งทั้งหมด พร้อม Timestamp เพื่อวิเคราะห์และสร้างแผนที่</p>
+                        <p><strong>Method:</strong> Google Apps Script Web App (HTTP POST)</p>
+                        <p><strong>Data Format:</strong></p>
+                        <div class="code-block" style="font-size: 0.75em;">
+{
+  "tagid": 0,
+  "seq": 123,
+  "msec": 45678,
+  "A1": 150,
+  "A2": 200,
+  "A3": 175
+}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>ข้อมูลเชิงเทคนิค</h3>
+                    <table class="spec-table">
+                        <tr>
+                            <th>รายการ</th>
+                            <th>รายละเอียด</th>
+                        </tr>
+                        <tr>
+                            <td><strong>UWB Module</strong></td>
+                            <td>DW3000 ผ่าน STM32 (AT Command Interface)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>MCU</strong></td>
+                            <td>ESP32-S3 (Dual-core, 240 MHz)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Communication</strong></td>
+                            <td>UART2 (TAG/Anchor ↔ STM32), ESP-NOW (TAG → NODE), WiFi (NODE → Cloud)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Display</strong></td>
+                            <td>OLED SSD1306 (128x64) I2C 0x3C</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Update Rate</strong></td>
+                            <td>UWB: 200ms, ESP-NOW: 200ms, Upload: 150ms</td>
+                        </tr>
+                        <tr>
+                            <td><strong>WiFi Channel</strong></td>
+                            <td>Channel 11 (ESP-NOW + WiFi STA)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Positioning Accuracy</strong></td>
+                            <td>±5-10 cm (with UKF)</td>
+                        </tr>
+                    </table>
+                </div>
+            </section>
+
+            <!-- SECTION 4: WORKFLOW -->
+            <section id="workflow">
+                <h2>⚙️ ลำดับการทำงานของระบบ (Step-by-Step)</h2>
+                
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="card">
+                            <h4><span class="badge badge-success">STEP 1</span> Anchors ส่งสัญญาณ</h4>
+                            <p>Anchor ทั้ง 3 ตัว (A1, A2, A3) ส่งสัญญาณ UWB แบบ TX-Only Mode เป็นจุดอ้างอิงคงที่</p>
+                            <p><strong>การตั้งค่า:</strong></p>
+                            <ul>
+                                <li>A1: ANCHORID=1, ROLE=1</li>
+                                <li>A2: ANCHORID=2, ROLE=1</li>
+                                <li>A3: ANCHORID=3, ROLE=1</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="card">
+                            <h4><span class="badge badge-warning">STEP 2</span> TAG รับสัญญาณและวัดระยะ</h4>
+                            <p>TAG บนเรือรับสัญญาณจาก 3 Anchors และคำนวณระยะทางด้วย Time-of-Flight (ToF)</p>
+                            <p><strong>กระบวนการ:</strong></p>
+                            <ol>
+                                <li>ส่งคำสั่ง <code>ATRDATA</code> ผ่าน UART2 ไปยัง STM32</li>
+                                <li>STM32 ตอบกลับด้วย <code>ATRANGE</code> พร้อมค่าระยะ A1, A2, A3 (ซม.)</li>
+                                <li>Parse ข้อมูล: <code>seq=123,range=[150,200,175]</code></li>
+                            </ol>
+                            <div class="alert alert-info">
+                                <strong>💡 หมายเหตุ:</strong> ค่าที่ได้จะมี Bias (ค่าคลาดเคลื่อน) ที่แตกต่างกันในแต่ละช่วงระยะ
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="card">
+                            <h4><span class="badge badge-warning">STEP 3</span> แก้ไข Bias ด้วย Piecewise Correction</h4>
+                            <p>ใช้ฟังก์ชัน <code>calculatePiecewiseBias()</code> เพื่อแก้ไขค่า Bias ตามช่วงระยะทาง</p>
+                            <p><strong>ตัวอย่างการแก้ไข A1:</strong></p>
+                            <ul>
+                                <li>10-15 cm: bias = 21.0 + (d-10) × 0.6</li>
+                                <li>15-25 cm: bias = 24.0 + (d-15) × 1.095</li>
+                                <li>25-50 cm: bias = 34.95 + (d-25) × 0.388</li>
+                                <li>50-100 cm: bias = 44.65 + (d-50) × 0.084</li>
+                                <li>... (และช่วงอื่นๆ ต่อไป)</li>
+                            </ul>
+                            <p><strong>สูตร:</strong> <code>correctedDistance = rawDistance - bias</code></p>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="card">
+                            <h4><span class="badge badge-warning">STEP 4</span> Outlier Detection (MAD)</h4>
+                            <p>ตรวจจับค่าผิดปกติ (Outliers) ด้วย Median Absolute Deviation</p>
+                            <p><strong>Algorithm:</strong></p>
+                            <div class="code-block" style="font-size: 0.85em;">
+median = getMedian(A1, A2, A3)
+MAD1 = |A1 - median|
+MAD2 = |A2 - median|
+MAD3 = |A3 - median|
+
+if (MAD > threshold=0.5m):
+    reject outlier → use previous value
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="card">
+                            <h4><span class="badge badge-warning">STEP 5</span> UKF Filtering</h4>
+                            <p>ใช้ <span class="tech-term">Unscented Kalman Filter (UKF)</span> <span class="definition">ตัวกรองแบบ Kalman สำหรับระบบไม่เชิงเส้น</span> เพื่อกรองสัญญาณ</p>
+                            <p><strong>UKF Process:</strong></p>
+                            <ol>
+                                <li><strong>Predict:</strong> ทำนายสถานะถัดไปด้วย Sigma Points</li>
+                                <li><strong>Update:</strong> ปรับปรุงด้วยข้อมูลวัดใหม่</li>
+                                <li><strong>Adaptive Q/R:</strong> ปรับ noise matrices ตามระยะทาง</li>
+                            </ol>
+                            <p><strong>Parameters:</strong></p>
+                            <ul>
+                                <li>State: [A1, A2, A3]</li>
+                                <li>α = 0.5 (v3.2), 0.1 (v3.1), 0.001 (v2.0)</li>
+                                <li>β = 2.0, κ = 0.0</li>
+                                <li>Q (Process Noise): 0.5-150 (adaptive)</li>
+                                <li>R (Measurement Noise): 0.001-10 (adaptive)</li>
+                            </ul>
+                            <div class="alert alert-success">
+                                <strong>✅ ผลลัพธ์:</strong> ค่าที่ได้จะ Smooth และ Stable ขึ้น เวลาประมวลผล 200-500 µs
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="card">
+                            <h4><span class="badge badge-info">STEP 6</span> ส่งข้อมูลผ่าน ESP-NOW</h4>
+                            <p>TAG ส่งข้อมูลที่กรองแล้วไปยัง NODE ผ่าน <span class="tech-term">ESP-NOW</span> <span class="definition">โปรโตคอลสื่อสารไร้สายแบบ Peer-to-Peer ของ Espressif</span></p>
+                            <p><strong>Packet Structure:</strong></p>
+                            <div class="code-block" style="font-size: 0.85em;">
+struct espnow_pkt_t {
+    uint8_t role;      // 0=TAG
+    uint8_t tagid;     // 0,1,2,...
+    uint8_t acount;    // 3
+    uint32_t seq;      // sequence number
+    uint32_t msec;     // timestamp
+    int16_t A1, A2, A3; // distances (cm)
+};
+                            </div>
+                            <p><strong>การส่ง:</strong> ทุกๆ 200ms ไปยัง NODE_MAC</p>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="card">
+                            <h4><span class="badge badge-info">STEP 7</span> NODE รับข้อมูลและ Queue</h4>
+                            <p>NODE รับข้อมูลจาก TAG และเก็บใน Queue Buffer ขนาด 64 items</p>
+                            <p><strong>Process:</strong></p>
+                            <ol>
+                                <li>รับ Packet ผ่าน <code>onDataRecv()</code> callback</li>
+                                <li>(Optional) กรองซ้ำด้วย UKF ที่ NODE</li>
+                                <li>Push ข้อมูลเข้า Circular Queue</li>
+                                <li>ป้องกันการเต็ม: ถ้า Queue เต็ม → ทิ้งข้อมูลเก่า</li>
+                            </ol>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="card">
+                            <h4><span class="badge badge-danger">STEP 8</span> อัปโหลดไปยัง Google Sheets</h4>
+                            <p>NODE ดึงข้อมูลจาก Queue และ POST ไปยัง Google Apps Script Web App</p>
+                            <p><strong>การอัปโหลด:</strong></p>
+                            <ul>
+                                <li>ความถี่: ทุกๆ 150ms (pop 1 item)</li>
+                                <li>Protocol: HTTPS POST (WiFiClientSecure)</li>
+                                <li>Format: JSON</li>
+                                <li>Retry: ถ้าส่งไม่สำเร็จ → กลับเข้า Queue</li>
+                            </ul>
+                            <p><strong>Google Apps Script:</strong></p>
+                            <div class="code-block" style="font-size: 0.8em;">
+function doPost(e) {
+  const sheet = SpreadsheetApp.openById(ID)
+                .getSheetByName("Data");
+  const data = JSON.parse(e.postData.contents);
+  
+  sheet.appendRow([
+    new Date(),      // timestamp server
+    data.tagid,
+    data.seq,
+    data.msec,
+    data.A1,
+    data.A2,
+    data.A3
+  ]);
+  
+  return ContentService
+    .createTextOutput(JSON.stringify({ok: true}))
+    .setMimeType(ContentService.MimeType.JSON);
+}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="card">
+                            <h4><span class="badge badge-danger">STEP 9</span> แสดงผลบน OLED Display</h4>
+                            <p>TAG และ Anchor แสดงข้อมูลแบบเรียลไทม์บนหน้าจอ OLED</p>
+                            <p><strong>TAG Display:</strong></p>
+                            <ul>
+                                <li>TAG ID และ Version</li>
+                                <li>Raw vs Filtered Values (A1, A2, A3)</li>
+                                <li>UKF Execution Time (µs)</li>
+                                <li>Q/R Values (Adaptive)</li>
+                            </ul>
+                            <p><strong>Anchor Display:</strong></p>
+                            <ul>
+                                <li>ANCHOR [ID]</li>
+                                <li>TX-ONLY Mode</li>
+                                <li>Status: READY</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 5: FLOWCHART -->
+            <section id="flowchart">
+                <h2>📊 โฟลว์ชาร์ตการทำงานของระบบ</h2>
+                
+                <div class="flowchart">
+                    <h3 style="text-align: center; color: var(--primary-color);">Data Flow Diagram</h3>
+                    <div class="flow-diagram">
+                        <div class="flow-row">
+                            <div class="flow-box anchor">
+                                <strong>ANCHOR 1 (A1)</strong><br>
+                                TX-Only<br>
+                                📡 UWB Signal
+                            </div>
+                            <div class="flow-box anchor">
+                                <strong>ANCHOR 2 (A2)</strong><br>
+                                TX-Only<br>
+                                📡 UWB Signal
+                            </div>
+                            <div class="flow-box anchor">
+                                <strong>ANCHOR 3 (A3)</strong><br>
+                                TX-Only<br>
+                                📡 UWB Signal
+                            </div>
+                        </div>
+
+                        <div class="flow-arrow">↓ ↓ ↓</div>
+
+                        <div class="flow-row">
+                            <div class="flow-box tag" style="min-width: 400px;">
+                                <strong>TAG SENDER (บนเรือ)</strong><br><br>
+                                1️⃣ รับสัญญาณ UWB<br>
+                                2️⃣ วัดระยะ A1, A2, A3<br>
+                                3️⃣ Piecewise Bias Correction<br>
+                                4️⃣ Outlier Detection (MAD)<br>
+                                5️⃣ UKF Filtering<br>
+                                6️⃣ แสดงผลบน OLED
+                            </div>
+                        </div>
+
+                        <div class="flow-arrow">↓ ESP-NOW (200ms)</div>
+
+                        <div class="flow-row">
+                            <div class="flow-box node" style="min-width: 400px;">
+                                <strong>NODE RECEIVER</strong><br><br>
+                                1️⃣ รับข้อมูลผ่าน ESP-NOW<br>
+                                2️⃣ (Optional) UKF Double Filtering<br>
+                                3️⃣ เก็บใน Queue Buffer (64 items)<br>
+                                4️⃣ Connect WiFi<br>
+                                5️⃣ Prepare JSON Payload
+                            </div>
+                        </div>
+
+                        <div class="flow-arrow">↓ HTTPS POST (150ms)</div>
+
+                        <div class="flow-row">
+                            <div class="flow-box sheet" style="min-width: 400px;">
+                                <strong>GOOGLE SHEETS</strong><br><br>
+                                1️⃣ รับ HTTP POST Request<br>
+                                2️⃣ Parse JSON Data<br>
+                                3️⃣ Lock (Concurrency Control)<br>
+                                4️⃣ Append Row to Sheet<br>
+                                5️⃣ Return Success Response
+                            </div>
+                        </div>
+
+                        <div style="margin-top: 30px; padding: 20px; background: #f1f5f9; border-radius: 8px;">
+                            <h4 style="text-align: center; color: var(--primary-color);">📈 Timing Diagram</h4>
+                            <div class="code-block" style="font-size: 0.85em; background: #1e293b;">
+Time: 0ms      200ms     400ms     600ms     800ms
+      |---------|---------|---------|---------|
+UWB:  ████      ████      ████      ████      ████
+      ATRDATA   ATRDATA   ATRDATA   ATRDATA   ATRDATA
+                ↓         ↓         ↓         ↓
+UKF:        ⚡️ (500µs) ⚡️       ⚡️       ⚡️
+                ↓         ↓         ↓         ↓
+ESP:        📡 TX    📡 TX    📡 TX    📡 TX
+      |---------|---------|---------|---------|
+      150ms     350ms     550ms     750ms     950ms
+Upload: ☁️       ☁️        ☁️        ☁️        ☁️
+      POST     POST      POST      POST      POST
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 6: HARDWARE -->
+            <section id="hardware">
+                <h2>🔌 ข้อมูลฮาร์ดแวร์โดยละเอียด</h2>
+                
+                <div class="card">
+                    <h3>MaUWB ESP32-S3 Module</h3>
+                    <p><strong>Datasheet:</strong> <a href="https://www.makerfabs.com/mauwb-esp32s3-uwb-module.html" target="_blank">Makerfabs MaUWB</a></p>
+                    <table class="spec-table">
+                        <tr>
+                            <th>คุณสมบัติ</th>
+                            <th>รายละเอียด</th>
+                        </tr>
+                        <tr>
+                            <td><strong>MCU</strong></td>
+                            <td>ESP32-S3-WROOM-1 (Dual-core Xtensa LX7, 240 MHz)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>UWB Chip</strong></td>
+                            <td>DW3000 (Qorvo/Decawave) via STM32 Co-processor</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Interface</strong></td>
+                            <td>UART2 (AT Command) between ESP32 ↔ STM32</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Memory</strong></td>
+                            <td>8MB PSRAM, 16MB Flash</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Wireless</strong></td>
+                            <td>WiFi 802.11 b/g/n, BLE 5.0, UWB (3.5-6.5 GHz)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Display Port</strong></td>
+                            <td>I2C (SDA=GPIO39, SCL=GPIO38) for OLED SSD1306</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Power</strong></td>
+                            <td>5V USB-C / 3.7V LiPo Battery</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Positioning Accuracy</strong></td>
+                            <td>±10 cm (typical), ±5 cm (with filtering)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Range</strong></td>
+                            <td>0-100m (indoor), 0-300m (outdoor, line-of-sight)</td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div class="card">
+                    <h3>การเชื่อมต่อ GPIO</h3>
+                    <table class="spec-table">
+                        <tr>
+                            <th>GPIO Pin</th>
+                            <th>Function</th>
+                            <th>Description</th>
+                        </tr>
+                        <tr>
+                            <td>GPIO 39</td>
+                            <td>I2C_SDA</td>
+                            <td>OLED Display Data</td>
+                        </tr>
+                        <tr>
+                            <td>GPIO 38</td>
+                            <td>I2C_SCL</td>
+                            <td>OLED Display Clock</td>
+                        </tr>
+                        <tr>
+                            <td>GPIO 18</td>
+                            <td>UART2_RX</td>
+                            <td>Receive from STM32</td>
+                        </tr>
+                        <tr>
+                            <td>GPIO 17</td>
+                            <td>UART2_TX</td>
+                            <td>Transmit to STM32</td>
+                        </tr>
+                        <tr>
+                            <td>GPIO 16</td>
+                            <td>UWB_RST</td>
+                            <td>Reset UWB Module</td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div class="card">
+                    <h3>AT Commands (STM32 ↔ DW3000)</h3>
+                    <p>ใช้สำหรับตั้งค่าและควบคุม UWB Module:</p>
+                    <table class="spec-table">
+                        <tr>
+                            <th>Command</th>
+                            <th>Description</th>
+                            <th>Example</th>
+                        </tr>
+                        <tr>
+                            <td><code>AT?</code></td>
+                            <td>Test Connection</td>
+                            <td>Response: <code>OK</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>ATRESTORE</code></td>
+                            <td>Factory Reset</td>
+                            <td>Clear all config</td>
+                        </tr>
+                        <tr>
+                            <td><code>ATSETCFG</code></td>
+                            <td>Configure ID & Role</td>
+                            <td><code>ATSETCFG=0,0,1,1</code><br>(id=0, role=TAG)</td>
+                        </tr>
+                        <tr>
+                            <td><code>ATSETCAP</code></td>
+                            <td>Set Capability</td>
+                            <td><code>ATSETCAP=4,10,1</code><br>(mode, rate, preamble)</td>
+                        </tr>
+                        <tr>
+                            <td><code>ATSETRPT</code></td>
+                            <td>Ranging Report</td>
+                            <td><code>ATSETRPT=1</code> (enable)<br><code>ATSETRPT=0</code> (disable)</td>
+                        </tr>
+                        <tr>
+                            <td><code>ATRDATA</code></td>
+                            <td>Request Range Data</td>
+                            <td>Response: <code>ATRANGE=seq=123,range=[150,200,175]</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>ATSAVE</code></td>
+                            <td>Save Config to Flash</td>
+                            <td>Persist settings</td>
+                        </tr>
+                        <tr>
+                            <td><code>ATRESTART</code></td>
+                            <td>Restart Module</td>
+                            <td>Apply new config</td>
+                        </tr>
+                    </table>
+                </div>
+            </section>
+
+            <!-- SECTION 7: SOFTWARE -->
+            <section id="software">
+                <h2>💻 ข้อมูลซอฟต์แวร์และเวอร์ชัน</h2>
+                
+                <div class="card">
+                    <h3>TAG Sender - เวอร์ชันต่างๆ</h3>
+                    <p>มีการพัฒนาหลายเวอร์ชันเพื่อปรับปรุงความแม่นยำและ Performance:</p>
+                    
+                    <h4>📌 v2.0.0 - UKF Basic</h4>
+                    <ul>
+                        <li>✅ UKF Real-time Filtering</li>
+                        <li>✅ Fixed Bias Correction (A1=46.21, A2=63.17, A3=58.02 cm)</li>
+                        <li>✅ Static Q/R Matrices</li>
+                        <li>❌ ไม่มี Adaptive Parameters</li>
+                    </ul>
+                    <p><strong>ปัญหา:</strong> Bias ไม่ตรงกับระยะทางจริง → Error สูง</p>
+
+                    <h4>📌 v3.0.0 - Adaptive Q/R (ไม่มีในไฟล์)</h4>
+                    <ul>
+                        <li>✅ Adaptive Q/R based on distance</li>
+                        <li>❌ ยังใช้ Fixed Bias</li>
+                    </ul>
+
+                    <h4>📌 v3.1.0 - Piecewise Bias</h4>
+                    <ul>
+                        <li>✅ Piecewise Bias Correction (แบ่ง 10+ ช่วงระยะ)</li>
+                        <li>✅ Adaptive R (1036 cm² max for A2)</li>
+                        <li>✅ Relaxed Q (0.64-5.0 range)</li>
+                        <li>✅ Weighted Update (ให้น้ำหนัก A2 พิเศษ)</li>
+                        <li>✅ Outlier Rejection (MAD threshold=0.5m)</li>
+                    </ul>
+                    <p><strong>ปรับปรุง:</strong> ลด Error จาก Bias ลง 60-80%</p>
+
+                    <h4>📌 v3.2.0 - Real-time Responsive</h4>
+                    <ul>
+                        <li>✅ Increased Q (5-50 range) → More responsive</li>
+                        <li>✅ Increased R (5-10 range) → Trust measurements more</li>
+                        <li>✅ Fading Memory (P × 1.02) → Forget old estimates</li>
+                        <li>✅ UKF Alpha = 0.5 → More aggressive sigma points</li>
+                        <li>✅ Alpha-Beta Filter option (ultra fast)</li>
+                    </ul>
+                    <p><strong>Trade-off:</strong> เพิ่ม Responsiveness แต่อาจมี Noise มากขึ้น</p>
+
+                    <h4>📌 v3.3.0 - Individual Adaptive Q/R per Anchor</h4>
+                    <ul>
+                        <li>✅ แยก Q/R สำหรับแต่ละ Anchor (A1, A2, A3)</li>
+                        <li>✅ Innovation-based Q Adaptation</li>
+                        <li>✅ Selective Fading Memory (เฉพาะเมื่อจำเป็น)</li>
+                        <li>✅ Velocity Tracking (ไม่ได้ implement ใน code แต่มี structure)</li>
+                    </ul>
+                    <p><strong>สถานะ:</strong> เวอร์ชันล่าสุดและแม่นยำที่สุด ✅</p>
+                </div>
+
+                <div class="card">
+                    <h3>NODE Receiver v2.0.0</h3>
+                    <ul>
+                        <li>✅ ESP-NOW Receiver with callback</li>
+                        <li>✅ WiFi HTTPS Client (Insecure TLS)</li>
+                        <li>✅ Queue Buffer (Circular, 64 items)</li>
+                        <li>✅ Optional Double UKF Filtering</li>
+                        <li>✅ Google Sheets Upload (JSON POST)</li>
+                    </ul>
+                    <p><strong>Features:</strong></p>
+                    <ul>
+                        <li><code>ENABLE_REPLY</code>: ตอบกลับ TAG (ไม่ได้ใช้)</li>
+                        <li><code>ENABLE_NODE_UKF</code>: กรองซ้ำที่ NODE (optional)</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>Anchor v2.0.0 - TX-Only Mode</h3>
+                    <ul>
+                        <li>✅ Simple TX-Only Configuration</li>
+                        <li>✅ OLED Status Display</li>
+                        <li>✅ Minimal Processing (ไม่มี ranging report)</li>
+                        <li>✅ Heartbeat Monitor (5s)</li>
+                    </ul>
+                    <p><strong>หมายเหตุ:</strong> Anchor ไม่ต้องประมวลผลอะไรมาก เพียงส่งสัญญาณ UWB</p>
+                </div>
+
+                <div class="card">
+                    <h3>Google Apps Script v2.0.0</h3>
+                    <ul>
+                        <li>✅ HTTP POST Endpoint (<code>doPost</code>)</li>
+                        <li>✅ JSON Parsing</li>
+                        <li>✅ LockService (Concurrency Control)</li>
+                        <li>✅ Auto Timestamp (Server Time)</li>
+                        <li>✅ Error Handling & Response</li>
+                    </ul>
+                    <p><strong>Deployment:</strong> Deploy as Web App → "Anyone" can access → Copy URL to NODE</p>
+                </div>
+            </section>
+
+            <!-- SECTION 8: ALGORITHMS -->
+            <section id="algorithms">
+                <h2>🧮 อัลกอริทึมและการคำนวณ</h2>
+                
+                <div class="card">
+                    <h3>1️⃣ Piecewise Bias Correction</h3>
+                    <p><strong>ปัญหา:</strong> UWB มีค่า Bias (ค่าคลาดเคลื่อน) ที่แตกต่างกันในแต่ละช่วงระยะทาง</p>
+                    <p><strong>วิธีแก้:</strong> แบ่งช่วงระยะทางและใช้สูตร Linear Interpolation สำหรับแต่ละช่วง</p>
+                    
+                    <h4>สูตรการคำนวณ Bias (A1):</h4>
+                    <div class="code-block">
+if (d < 15 cm):
+    bias = 21.0 + (d - 10) × 0.6
+elif (d < 25 cm):
+    bias = 24.0 + (d - 15) × 1.095
+elif (d < 50 cm):
+    bias = 34.95 + (d - 25) × 0.388
+...และอื่นๆ
+                    </div>
+                    
+                    <h4>A2 และ A3:</h4>
+                    <p>คำนวณจาก A1 บวกด้วย Offset:</p>
+                    <ul>
+                        <li>A2 = A1_bias + offset (ขึ้นกับระยะ)</li>
+                        <li>A3 = A1_bias + offset (ขึ้นกับระยะ)</li>
+                    </ul>
+                    
+                    <div class="alert alert-info">
+                        <strong>💡 ข้อมูลที่มา:</strong> จากการวัดจริงในไฟล์ CSV (การทดลองวัดค่าความคลาดเคลื่อน)
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>2️⃣ Outlier Detection - MAD (Median Absolute Deviation)</h3>
+                    <p><strong>วัตถุประสงค์:</strong> กรองค่าผิดปกติ (Outliers) ที่เกิดจากสัญญาณรบกวน</p>
+                    
+                    <h4>Algorithm:</h4>
+                    <div class="code-block">
+// 1. หา Median
+median = getMedian(A1, A2, A3)
+
+// 2. คำนวณ MAD สำหรับแต่ละค่า
+MAD1 = |A1 - median|
+MAD2 = |A2 - median|
+MAD3 = |A3 - median|
+
+// 3. ตรวจสอบ Threshold
+threshold = 0.5 m  (50 cm)
+
+if (MAD1 > threshold):
+    reject A1 → use previous_A1
+if (MAD2 > threshold):
+    reject A2 → use previous_A2
+if (MAD3 > threshold):
+    reject A3 → use previous_A3
+                    </div>
+                    
+                    <div class="alert alert-warning">
+                        <strong>⚠️ ข้อควรระวัง:</strong> Threshold ต่ำเกินไป → ปฏิเสธค่าที่ดี, สูงเกินไป → ผ่าน Outliers
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>3️⃣ Unscented Kalman Filter (UKF)</h3>
+                    <p><strong>คำอธิบาย:</strong> UKF เป็น <span class="tech-term">Kalman Filter</span> <span class="definition">ตัวกรองที่ใช้ทำนายสถานะระบบจากข้อมูลที่มีสัญญาณรบกวน</span> แบบพิเศษสำหรับระบบไม่เชิงเส้น (Nonlinear Systems)</p>
+                    
+                    <h4>ทำไมต้องใช้ UKF?</h4>
+                    <ul>
+                        <li>❌ Extended KF (EKF) ต้อง linearization → ไม่แม่นยำสำหรับ nonlinear</li>
+                        <li>✅ UKF ใช้ <span class="tech-term">Sigma Points</span> <span class="definition">จุดตัวอย่างที่เลือกมาอย่างฉลาดรอบๆ ค่าประมาณ</span> → แม่นยำกว่า</li>
+                        <li>✅ ไม่ต้องคำนวณ Jacobian matrix → ง่ายกว่า</li>
+                    </ul>
+                    
+                    <h4>UKF Process (แบบย่อ):</h4>
+                    <div class="code-block">
+// === INITIALIZATION ===
+x = [A1_init, A2_init, A3_init]  // state
+P = identity(3×3) × 100           // covariance
+Q = process_noise_matrix()
+R = measurement_noise_matrix()
+
+// === PREDICT STEP ===
+1. Generate 7 Sigma Points around x
+   σ₀ = x
+   σᵢ = x + γ√P  (i=1,2,3)
+   σᵢ = x - γ√P  (i=4,5,6)
+
+2. Propagate through process model
+   σ'ᵢ = f(σᵢ)  // usually identity (no motion model)
+
+3. Compute predicted mean
+   x⁻ = Σ wᵢ σ'ᵢ
+
+4. Compute predicted covariance
+   P⁻ = Σ wᵢ (σ'ᵢ - x⁻)(σ'ᵢ - x⁻)ᵀ + Q
+
+// === UPDATE STEP ===
+5. Predict measurements
+   z'ᵢ = h(σ'ᵢ)  // usually identity
+
+6. Compute measurement mean & covariance
+   z⁻ = Σ wᵢ z'ᵢ
+   Pzz = Σ wᵢ (z'ᵢ - z⁻)(z'ᵢ - z⁻)ᵀ + R
+
+7. Compute cross-covariance
+   Pxz = Σ wᵢ (σ'ᵢ - x⁻)(z'ᵢ - z⁻)ᵀ
+
+8. Compute Kalman Gain
+   K = Pxz × Pzz⁻¹
+
+9. Update state
+   x⁺ = x⁻ + K(z - z⁻)
+
+10. Update covariance
+    P⁺ = P⁻ - K Pzz Kᵀ
+                    </div>
+                    
+                    <h4>UKF Parameters:</h4>
+                    <table class="spec-table">
+                        <tr>
+                            <th>Parameter</th>
+                            <th>Symbol</th>
+                            <th>Value</th>
+                            <th>Effect</th>
+                        </tr>
+                        <tr>
+                            <td>Alpha</td>
+                            <td>α</td>
+                            <td>0.001 (v2.0)<br>0.1 (v3.1)<br>0.5 (v3.2)</td>
+                            <td>Sigma points spread<br>สูง = กระจายมากขึ้น</td>
+                        </tr>
+                        <tr>
+                            <td>Beta</td>
+                            <td>β</td>
+                            <td>2.0</td>
+                            <td>Gaussian distribution (optimal=2)</td>
+                        </tr>
+                        <tr>
+                            <td>Kappa</td>
+                            <td>κ</td>
+                            <td>0.0</td>
+                            <td>Secondary scaling (0 = default)</td>
+                        </tr>
+                        <tr>
+                            <td>Lambda</td>
+                            <td>λ</td>
+                            <td>α²(n+κ)-n</td>
+                            <td>Combined scaling factor</td>
+                        </tr>
+                        <tr>
+                            <td>Gamma</td>
+                            <td>γ</td>
+                            <td>√(n+λ)</td>
+                            <td>Sigma points distance</td>
+                        </tr>
+                    </table>
+                    
+                    <h4>Adaptive Q & R:</h4>
+                    <p><strong>Q Matrix</strong> (Process Noise): แทนความไม่แน่นอนของโมเดล</p>
+                    <ul>
+                        <li>ระยะใกล้ (< 50cm): Q เล็ก (0.5-1.0) → เชื่อโมเดลมาก</li>
+                        <li>ระยะกลาง (50-1000cm): Q ปานกลาง (5-50)</li>
+                        <li>ระยะไกล (> 1000cm): Q ใหญ่ (100-150) → เชื่อโมเดลน้อย</li>
+                    </ul>
+                    
+                    <p><strong>R Matrix</strong> (Measurement Noise): แทนความไม่แน่นอนของการวัด</p>
+                    <ul>
+                        <li>ระยะใกล้: R เล็ก (0.001-0.004) → เชื่อการวัดมาก</li>
+                        <li>ระยะกลาง: R ปานกลาง (0.01-6.0)</li>
+                        <li>ระยะไกล: R ใหญ่ (1.0-10.0) → เชื่อการวัดน้อย</li>
+                    </ul>
+                    
+                    <div class="alert alert-success">
+                        <strong>✅ ผลลัพธ์:</strong> UKF ทำให้ค่าที่ได้ Smooth, Stable และแม่นยำขึ้น ใช้เวลาประมวลผล 200-500 µs
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>4️⃣ Alpha-Beta Filter (Alternative)</h3>
+                    <p><strong>จุดประสงค์:</strong> เป็น Filter แบบง่ายกว่า UKF แต่เร็วกว่ามาก (สำหรับ ultra real-time)</p>
+                    
+                    <h4>Algorithm:</h4>
+                    <div class="code-block">
+// Parameters
+α = 0.7  // position gain
+β = 0.1  // velocity gain
+dt = 0.2s  // sampling time
+
+// State
+x_est = [A1, A2, A3]  // estimated position
+v_est = [0, 0, 0]     // estimated velocity
+
+// Update (for each measurement)
+for i in [0, 1, 2]:
+    // Predict
+    x_pred = x_est[i] + v_est[i] × dt
+    
+    // Innovation
+    residual = measurement[i] - x_pred
+    
+    // Update
+    x_est[i] = x_pred + α × residual
+    v_est[i] = v_est[i] + (β / dt) × residual
+                    </div>
+                    
+                    <p><strong>Adaptive Alpha:</strong> ปรับ α ตามระยะทาง</p>
+                    <ul>
+                        <li>ระยะใกล้ (< 0.5m): α = 0.5 → เชื่อการวัดปานกลาง</li>
+                        <li>ระยะกลาง (0.5-2m): α = 0.7 → เชื่อการวัดมากขึ้น</li>
+                        <li>ระยะไกล (> 2m): α = 0.9 → เชื่อการวัดมากที่สุด</li>
+                    </ul>
+                    
+                    <div class="alert alert-warning">
+                        <strong>⚠️ Trade-off:</strong> Alpha-Beta เร็วกว่า UKF มาก แต่อาจมี Overshoot และไม่ smooth เท่า
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 9: IMPLEMENTATION -->
+            <section id="implementation">
+                <h2>🛠️ การนำไปใช้งาน (Implementation Guide)</h2>
+                
+                <div class="card">
+                    <h3>ขั้นตอนการติดตั้งระบบ</h3>
+                    
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <h4>STEP 1: ติดตั้ง Arduino IDE & Libraries</h4>
+                            <ul>
+                                <li>ติดตั้ง Arduino IDE 2.x</li>
+                                <li>เพิ่ม ESP32 Board Manager URL</li>
+                                <li>ติดตั้ง ESP32 by Espressif (v2.0.x+)</li>
+                                <li>ติดตั้ง Libraries:
+                                    <ul>
+                                        <li>Adafruit GFX</li>
+                                        <li>Adafruit SSD1306</li>
+                                        <li>ESP-NOW (built-in)</li>
+                                        <li>WiFi (built-in)</li>
+                                        <li>HTTPClient (built-in)</li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="timeline-item">
+                            <h4>STEP 2: เตรียม Google Sheets</h4>
+                            <ol>
+                                <li>สร้าง Google Sheets ใหม่</li>
+                                <li>เปลี่ยนชื่อ Sheet เป็น "Data"</li>
+                                <li>Copy Spreadsheet ID จาก URL</li>
+                                <li>Extensions → Apps Script</li>
+                                <li>Paste โค้ด <code>appGooglesheet2.0.0.txt</code></li>
+                                <li>แก้ <code>SPREADSHEET_ID</code></li>
+                                <li>Deploy → New deployment → Web app</li>
+                                <li>Execute as: Me</li>
+                                <li>Who has access: Anyone</li>
+                                <li>Copy Web App URL</li>
+                            </ol>
+                        </div>
+
+                        <div class="timeline-item">
+                            <h4>STEP 3: Upload โค้ดไปยัง Anchors (3 ตัว)</h4>
+                            <ol>
+                                <li>เปิดไฟล์ <code>anchor 2.0.0.txt</code></li>
+                                <li>แก้ <code>ANCHORID</code> = 1, 2, 3</li>
+                                <li>Upload ไปยัง Anchor แต่ละตัว</li>
+                                <li>ตรวจสอบ OLED แสดง "ANCHOR [ID]"</li>
+                                <li>วางใน position ที่กำหนด (สร้างสามเหลี่ยม)</li>
+                            </ol>
+                        </div>
+
+                        <div class="timeline-item">
+                            <h4>STEP 4: Upload โค้ดไปยัง TAG</h4>
+                            <ol>
+                                <li>เปิดไฟล์ <code>tag_sender3.3.0.txt</code> (เวอร์ชันล่าสุด)</li>
+                                <li>แก้ <code>TAGID</code> = 0</li>
+                                <li>แก้ <code>NODEPEER_MAC</code> = MAC ของ NODE</li>
+                                <li>Upload ไปยัง TAG</li>
+                                <li>ตรวจสอบ Serial Monitor แสดง UKF filtering</li>
+                            </ol>
+                        </div>
+
+                        <div class="timeline-item">
+                            <h4>STEP 5: Upload โค้ดไปยัง NODE</h4>
+                            <ol>
+                                <li>เปิดไฟล์ <code>node2.0.0.txt</code></li>
+                                <li>แก้ <code>WIFI_SSID</code> และ <code>WIFI_PASS</code></li>
+                                <li>แก้ <code>SCRIPT_URL</code> = Web App URL</li>
+                                <li>แก้ <code>TAGPEER_MAC</code> = MAC ของ TAG</li>
+                                <li>Upload ไปยัง NODE</li>
+                                <li>ตรวจสอบ Serial Monitor:
+                                    <ul>
+                                        <li>WiFi Connected</li>
+                                        <li>ESP-NOW Ready</li>
+                                        <li>Receiving packets</li>
+                                        <li>HTTP POST Success</li>
+                                    </ul>
+                                </li>
+                            </ol>
+                        </div>
+
+                        <div class="timeline-item">
+                            <h4>STEP 6: ทดสอบระบบ</h4>
+                            <ol>
+                                <li>เปิดไฟ Anchors (3 ตัว)</li>
+                                <li>เปิดไฟ TAG</li>
+                                <li>เปิดไฟ NODE (ต่อ WiFi)</li>
+                                <li>ตรวจสอบ Serial Monitor ทุกตัว</li>
+                                <li>ตรวจสอบ OLED Display (TAG แสดง Raw/Filtered)</li>
+                                <li>ตรวจสอบ Google Sheets มีข้อมูลเข้ามา</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>การหา MAC Address</h3>
+                    <p>ใช้โค้ดนี้เพื่อหา MAC Address ของแต่ละบอร์ด:</p>
+                    <div class="code-block">
+#include &lt;WiFi.h&gt;
+
+void setup() {
+  Serial.begin(115200);
+  WiFi.mode(WIFI_STA);
+  Serial.print("MAC Address: ");
+  Serial.println(WiFi.macAddress());
+}
+
+void loop() {}
+                    </div>
+                    <p>หรือดูจาก Serial Monitor เมื่อ boot:</p>
+                    <div class="code-block">
+INFO: TAG MAC = 48:CA:43:32:00:DB
+INFO: NODE MAC = 30:ED:A0:1F:00:24
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>การ Calibrate Bias</h3>
+                    <p>ถ้าต้องการปรับ Bias ให้เหมาะกับสภาพแวดล้อมของคุณ:</p>
+                    <ol>
+                        <li>วัดระยะทางจริงด้วยเมตร (Ground Truth)</li>
+                        <li>บันทึกค่า UWB ที่วัดได้ (หลายครั้ง)</li>
+                        <li>คำนวณ Bias = ค่าวัด - ค่าจริง</li>
+                        <li>Plot กราฟ Bias vs ระยะทาง</li>
+                        <li>แบ่งช่วงและหาสมการ Linear Fit</li>
+                        <li>Update ฟังก์ชัน <code>calculatePiecewiseBias()</code></li>
+                    </ol>
+                    <div class="alert alert-info">
+                        <strong>💡 คำแนะนำ:</strong> วัดอย่างน้อย 10-15 จุด ในช่วง 10cm - 30m เพื่อครอบคลุมทุกช่วง
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 10: TROUBLESHOOTING -->
+            <section id="troubleshooting">
+                <h2>🔍 การแก้ปัญหาและ Debugging</h2>
+                
+                <div class="card">
+                    <h3>ปัญหาที่พบบ่อยและวิธีแก้</h3>
+                    
+                    <h4>🔴 ปัญหา: TAG ไม่ได้รับสัญญาณจาก Anchor</h4>
+                    <p><strong>อาการ:</strong> OLED แสดง A1=0, A2=0, A3=0</p>
+                    <p><strong>สาเหตุ:</strong></p>
+                    <ul>
+                        <li>Anchor ไม่เปิด หรือ Config ผิด</li>
+                        <li>ระยะทางไกลเกินไป (>100m indoor)</li>
+                        <li>มีสิ่งกีดขวาง (metal, concrete wall)</li>
+                        <li>UWB Channel ไม่ตรงกัน</li>
+                    </ul>
+                    <p><strong>วิธีแก้:</strong></p>
+                    <ol>
+                        <li>ตรวจสอบ Anchor OLED แสดง "READY"</li>
+                        <li>ย่นระยะทางให้ใกล้กว่า 50m</li>
+                        <li>ลองเปลี่ยน position (line-of-sight)</li>
+                        <li>ตรวจสอบ Serial Monitor: <code>ATRANGE</code> response</li>
+                        <li>Re-upload โค้ด Anchor + TAG</li>
+                    </ol>
+
+                    <h4>🔴 ปัญหา: NODE ไม่ได้รับข้อมูลจาก TAG</h4>
+                    <p><strong>อาการ:</strong> Serial Monitor ไม่แสดง "RX from..."</p>
+                    <p><strong>สาเหตุ:</strong></p>
+                    <ul>
+                        <li>MAC Address ผิด</li>
+                        <li>WiFi Channel ไม่ตรงกัน</li>
+                        <li>ระยะทาง ESP-NOW เกิน 100m</li>
+                        <li>ESP-NOW init failed</li>
+                    </ul>
+                    <p><strong>วิธีแก้:</strong></p>
+                    <ol>
+                        <li>ตรวจสอบ MAC ใน Serial Monitor:<br><code>TAG MAC = ...</code><br><code>NODE MAC = ...</code></li>
+                        <li>Update <code>NODEPEER_MAC</code> และ <code>TAGPEER_MAC</code></li>
+                        <li>ตรวจสอบ Channel = 11 ทั้ง TAG และ NODE</li>
+                        <li>ย่นระยะทาง TAG-NODE ให้ < 50m</li>
+                        <li>Re-upload โค้ด TAG + NODE</li>
+                    </ol>
+
+                    <h4>🔴 ปัญหา: NODE ส่งข้อมูลไปยัง Google Sheets ไม่สำเร็จ</h4>
+                    <p><strong>อาการ:</strong> HTTP Response Code = -1 หรือ 400+</p>
+                    <p><strong>สาเหตุ:</strong></p>
+                    <ul>
+                        <li>WiFi ไม่ได้เชื่อมต่อ</li>
+                        <li>SCRIPT_URL ผิด</li>
+                        <li>Google Apps Script ไม่ได้ Deploy</li>
+                        <li>Permission ไม่ถูกต้อง (ต้องเป็น "Anyone")</li>
+                    </ul>
+                    <p><strong>วิธีแก้:</strong></p>
+                    <ol>
+                        <li>ตรวจสอบ WiFi: <code>WiFi Connected! IP=...</code></li>
+                        <li>ทดสอบ URL ด้วย Postman หรือ curl:
+                            <div class="code-block" style="font-size: 0.8em;">
+curl -X POST -H "Content-Type: application/json" \
+     -d '{"tagid":0,"seq":1,"msec":1000,"A1":100,"A2":150,"A3":120}' \
+     YOUR_SCRIPT_URL
+                            </div>
+                        </li>
+                        <li>ตรวจสอบ Google Apps Script:
+                            <ul>
+                                <li>Deploy → Manage deployments</li>
+                                <li>ดู Web App URL</li>
+                                <li>Execute as: Me</li>
+                                <li>Who has access: Anyone</li>
+                            </ul>
+                        </li>
+                        <li>ลอง Re-deploy Web App</li>
+                    </ol>
+
+                    <h4>🔴 ปัญหา: UKF ทำให้ค่าช้าเกินไป (Lag)</h4>
+                    <p><strong>อาการ:</strong> ค่าที่ได้ตาม motion ไม่ทัน</p>
+                    <p><strong>สาเหตุ:</strong> Q เล็กเกินไป → Filter เชื่อโมเดลมากเกินไป</p>
+                    <p><strong>วิธีแก้:</strong></p>
+                    <ul>
+                        <li>เปลี่ยนจาก v3.1 → v3.2 (Increased Q)</li>
+                        <li>หรือใช้ Alpha-Beta Filter (v3.2 + <code>#define USE_ALPHABETA</code>)</li>
+                        <li>เพิ่ม Fading Memory factor (>1.0)</li>
+                    </ul>
+
+                    <h4>🔴 ปัญหา: ค่าที่ได้กระโดด (Jittery)</h4>
+                    <p><strong>อาการ:</strong> ค่ากระโดกขึ้นลงมาก ไม่ smooth</p>
+                    <p><strong>สาเหตุ:</strong> Q ใหญ่เกินไป, R เล็กเกินไป, หรือมี Outliers</p>
+                    <p><strong>วิธีแก้:</strong></p>
+                    <ul>
+                        <li>ลด Q (เชื่อโมเดลมากขึ้น)</li>
+                        <li>เพิ่ม R (เชื่อการวัดน้อยลง)</li>
+                        <li>ตรวจสอบ MAD Outlier Detection ทำงานหรือไม่</li>
+                        <li>ลด Alpha-Beta α (ถ้าใช้ Alpha-Beta)</li>
+                    </ul>
+
+                    <h4>🔴 ปัญหา: ค่า Bias แก้ไม่ได้ (ยังคลาดเคลื่อน)</h4>
+                    <p><strong>อาการ:</strong> ค่าที่ได้ยังห่างจากจริงมาก</p>
+                    <p><strong>สาเหตุ:</strong> Piecewise Bias ไม่เหมาะกับ environment ของคุณ</p>
+                    <p><strong>วิธีแก้:</strong></p>
+                    <ol>
+                        <li>ทำ Calibration ใหม่ (ดูหัวข้อ "การ Calibrate Bias")</li>
+                        <li>บันทึกข้อมูลจาก Google Sheets</li>
+                        <li>วิเคราะห์ด้วย Python/Excel:
+                            <div class="code-block" style="font-size: 0.8em;">
+import pandas as pd
+df = pd.read_csv("data.csv")
+df['error'] = df['measured'] - df['actual']
+df.plot(x='actual', y='error')
+                            </div>
+                        </li>
+                        <li>Fit polynomial หรือ piecewise linear</li>
+                        <li>Update ฟังก์ชัน <code>calculatePiecewiseBias()</code></li>
+                    </ol>
+                </div>
+
+                <div class="card">
+                    <h3>Debug Tools & Tips</h3>
+                    
+                    <h4>📊 Serial Monitor Output</h4>
+                    <p><strong>TAG:</strong></p>
+                    <div class="code-block" style="font-size: 0.8em;">
+UKF 450us Raw(1.234,2.345,1.789) Filt(1.250,2.360,1.800) Q(5.0,10.0,8.0) R(0.01,0.02,0.04)
+TAG->NODE: 30:ED:A0:1F:00:24 → OK
+HEARTBEAT: Uptime 12345 ms UKF=ACTIVE
+                    </div>
+                    
+                    <p><strong>NODE:</strong></p>
+                    <div class="code-block" style="font-size: 0.8em;">
+RX from 48:CA:43:32:00:DB Ch=11 TAG=0 seq=123 A1=125 A2=236 A3=180
+HTTP POST: https://script.google.com/...
+HTTP Response Code: 200
+HTTP Response Body: {"ok":true}
+HEARTBEAT: Uptime 23456 ms Queue=5/64
+                    </div>
+
+                    <h4>🔎 Debugging Checklist</h4>
+                    <ul>
+                        <li>☑️ ตรวจสอบ Serial Monitor (115200 baud)</li>
+                        <li>☑️ ตรวจสอบ OLED Display</li>
+                        <li>☑️ วัดแรงดันไฟ (USB = 5V, Battery = 3.7V)</li>
+                        <li>☑️ ตรวจสอบ WiFi Signal (RSSI > -70 dBm)</li>
+                        <li>☑️ ตรวจสอบ Google Sheets มีข้อมูล</li>
+                        <li>☑️ ลอง Reset ทุกอุปกรณ์พร้อมกัน</li>
+                        <li>☑️ ตรวจสอบ Version โค้ดเป็นเวอร์ชันเดียวกัน</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- FOOTER -->
+            <section style="margin-top: 60px; padding: 30px; background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%); color: white; border-radius: 12px; text-align: center;">
+                <h2 style="color: white;">🎉 สรุป</h2>
+                <p style="font-size: 1.2em;">โครงการนี้ใช้เทคโนโลยี UWB, UKF Filtering, ESP-NOW และ Cloud Storage<br>เพื่อสร้างระบบนำทางเรืออัตโนมัติที่แม่นยำและเชื่อถือได้</p>
+                <p style="margin-top: 20px; font-size: 1em; opacity: 0.9;">
+                    <strong>เวอร์ชันปัจจุบัน:</strong> TAG v3.3.0, NODE v2.0.0, Anchor v2.0.0<br>
+                    <strong>Positioning Accuracy:</strong> ±5-10 cm with UKF<br>
+                    <strong>Update Rate:</strong> 200ms (5 Hz)<br>
+                    <strong>Real-time Processing:</strong> 200-500 µs
+                </p>
+                <p style="margin-top: 30px; font-size: 0.9em; opacity: 0.8;">
+                    📚 เอกสารนี้สร้างขึ้นเพื่อช่วยให้คุณเข้าใจระบบได้อย่างครบถ้วน<br>
+                    หากมีคำถามหรือพบปัญหา สามารถตรวจสอบในหัวข้อ "การแก้ปัญหาและ Debugging"<br>
+                    <br>
+                    🚀 <strong>ขอให้โครงการสำเร็จ!</strong>
+                </p>
+            </section>
+        </div>
+    </div>
+</body>
+</html>
+
