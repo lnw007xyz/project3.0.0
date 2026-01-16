@@ -1,0 +1,44 @@
+# Arduino IDE
+*.hex
+*.eep
+*.elf
+*.map
+*.sym
+*.lst
+*.o
+*.a
+*.d
+
+# Build files
+build/
+*.bin
+
+# Credentials (IMPORTANT!)
+thingProperties.h.backup
+credentials.txt
+secrets.h
+
+# IDE files
+.vscode/
+.idea/
+*.code-workspace
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Logs
+*.log
+debug.txt
+
+# Temporary files
+*~
+*.swp
+*.swo
+.tmp/
+
+# Documentation build
+_site/
+.sass-cache/
+.jekyll-metadata
